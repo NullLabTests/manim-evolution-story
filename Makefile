@@ -2,6 +2,15 @@
 
 QUALITY ?= l
 
+# Map QUALITY flag to Manim output directory
+ifeq ($(QUALITY),h)
+QUALITY_DIR = 1080p60
+else ifeq ($(QUALITY),k)
+QUALITY_DIR = 2160p60
+else
+QUALITY_DIR = 480p15
+endif
+
 SCENES = TitleScene BigBangScene StarFormationScene SolarSystemScene \
          OriginOfLifeScene GreatOxidationScene EukaryotesScene \
          CambrianExplosionScene SeaToLandScene RiseOfMammalsScene \
@@ -39,7 +48,7 @@ master-video:
 	manim -pq$(QUALITY) scripts/full_video.py FullStoryScene
 
 concat:
-	@printf "file '$(PWD)/media/videos/create_longform_video/480p15/%s.mp4'\n" $(SCENES) > /tmp/scenes.txt
+	@printf "file '$(PWD)/media/videos/create_longform_video/$(QUALITY_DIR)/%s.mp4'\n" $(SCENES) > /tmp/scenes.txt
 	ffmpeg -f concat -safe 0 -i /tmp/scenes.txt -c copy media/master/FullEvolutionStory.mp4 -y
 
 audio:
@@ -53,7 +62,7 @@ audio:
 		-c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest \
 		media/master/FullEvolutionStory_WithSound.mp4 -y
 
-upscale:
+upscale:  # Always from 480p base (4K upscale starts from low-res source)
 	ffmpeg -i media/videos/create_longform_video/480p15/BigBangScene.mp4 \
 		-vf "scale=3840:2160:flags=lanczos,eq=brightness=0.05:contrast=1.1:saturation=1.2,unsharp=3:3:1.0:3:3:0.5" \
 		-c:v libx264 -preset slow -crf 18 -b:v 40M -maxrate 50M -bufsize 80M \

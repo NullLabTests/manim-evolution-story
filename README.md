@@ -52,6 +52,8 @@ An educational animated video series rendered with [Manim Community](https://www
 - [Cinematic Upscale](#cinematic-upscale)
 - [CI/CD Pipeline](#cicd-pipeline)
 - [Technical Details](#technical-details)
+- [Downloads](#downloads)
+- [Citation](#citation)
 - [License](#license)
 
 ---
@@ -300,6 +302,8 @@ manim-evolution-story/
 ├── assets/
 │   ├── chapter-timeline.svg        # Visual chapter timeline
 │   ├── comparison.png              # 480p vs 4K side-by-side comparison
+│   ├── audio_waveform.png          # Waveform of procedural ambient audio
+│   ├── scene_thumbs.png            # Montage grid of all 13 scenes
 │   ├── preview_title.gif           # Animated title scene preview
 │   ├── preview_bigbang.gif         # Animated Big Bang scene preview
 │   ├── poster_4k.png               # 4K poster frame from Big Bang scene
