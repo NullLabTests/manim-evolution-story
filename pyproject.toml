@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "manim-evolution-story"
+version = "1.0.0"
+description = "From the Big Bang to You — a 4-minute animated evolution video rendered with Manim"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+keywords = ["manim", "evolution", "animation", "educational"]
+authors = [{name = "NullLabTests"}]
+
+dependencies = [
+    "manim>=0.19.0,<2.0.0",
+    "numpy>=1.22.0,<2.0.0",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501"]
+
+[tool.setuptools.packages.find]
+where = ["scripts"]

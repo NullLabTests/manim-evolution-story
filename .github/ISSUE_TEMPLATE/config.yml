@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Manim Community Docs
+    url: https://docs.manim.community/
+    about: Check the official Manim documentation for general rendering help.

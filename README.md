@@ -72,20 +72,21 @@ This project demonstrates how to create professional educational animations usin
 ## Chapters
 
 | # | Scene | Duration | Description |
-|---|-------|----------|-------------|
-| 1 | Title | ~31s | Opening starfield and title sequence with twinkling stars |
-| 2 | Big Bang | ~18s | Singularity, cosmic inflation, first particles, fundamental forces |
-| 3 | Star Formation | ~22s | Nebulae, protostars, nuclear fusion, element creation |
-| 4 | Solar System | ~18s | Planetary accretion, orbital mechanics, Earth forms |
-| 5 | Origin of Life | ~17s | Primordial soup, chemical reactions, first cell, LUCA |
-| 6 | Great Oxidation | ~16s | Cyanobacteria, O2 bubbles, rust, mass extinction |
-| 7 | Eukaryotes | ~15s | Endosymbiosis, nucleus, mitochondria, complex cells |
-| 8 | Cambrian Explosion | ~18s | Body plan diversification, Burgess Shale, tree of life |
-| 9 | Sea to Land | ~14s | Tiktaalik, tetrapod transition, plant colonization |
-| 10 | Rise of Mammals | ~21s | Asteroid impact, dinosaur extinction, mammal diversification |
-| 11 | Primate Lineage | ~12s | Evolutionary tree, hominin branch, bipedalism adaptations |
-| 12 | Human Evolution | ~16s | Timeline from Australopithecus to sapiens, brain size, technology |
-| 13 | Conclusion | ~23s | Recap timeline, philosophical reflection, fade to black |
+|---|---|---|---|
+| 1 | Title | 30.9s | Opening starfield and title sequence with twinkling stars |
+| 2 | Big Bang | 18.0s | Singularity, cosmic inflation, first particles, fundamental forces |
+| 3 | Star Formation | 22.1s | Nebulae, protostars, nuclear fusion, element creation |
+| 4 | Solar System | 17.7s | Planetary accretion, orbital mechanics, Earth forms |
+| 5 | Origin of Life | 16.9s | Primordial soup, chemical reactions, first cell, LUCA |
+| 6 | Great Oxidation | 15.7s | Cyanobacteria, O₂ bubbles, rust, mass extinction |
+| 7 | Eukaryotes | 14.9s | Endosymbiosis, nucleus, mitochondria, complex cells |
+| 8 | Cambrian Explosion | 18.1s | Body plan diversification, Burgess Shale, tree of life |
+| 9 | Sea to Land | 14.4s | Tiktaalik, tetrapod transition, plant colonization |
+| 10 | Rise of Mammals | 21.3s | Asteroid impact, dinosaur extinction, mammal diversification |
+| 11 | Primate Lineage | 12.3s | Evolutionary tree, hominin branch, bipedalism adaptations |
+| 12 | Human Evolution | 15.9s | Timeline from Australopithecus to sapiens, brain size, technology |
+| 13 | Conclusion | 23.1s | Recap timeline, philosophical reflection, fade to black |
+
 
 ## Production Pipeline
 
@@ -288,9 +289,10 @@ self.play(ReplacementTransform(prok.copy(), euk), run_time=2.0)
 ```
 manim-evolution-story/
 ├── .github/
-│   └── workflows/
-│       └── render.yml              # GitHub Actions CI/CD (tag + manual trigger)
-│       └── FUNDING.yml             # Sponsorship configuration
+│   ├── workflows/
+│   │   └── render.yml              # GitHub Actions CI/CD (tag + manual trigger)
+│   ├── ISSUE_TEMPLATE/             # Bug report + feature request templates
+│   └── FUNDING.yml                 # Sponsorship configuration
 ├── .gitattributes                  # Binary/text file handling
 ├── .gitignore                      # Cache, Python, OS, IDE exclusions
 ├── CITATION.cff                    # Academic citation metadata
@@ -299,6 +301,7 @@ manim-evolution-story/
 ├── README.md
 ├── LICENSE                         # MIT License
 ├── requirements.txt                # manim + numpy
+├── pyproject.toml                  # Project metadata and tool config
 ├── assets/
 │   ├── chapter-timeline.svg        # Visual chapter timeline
 │   ├── comparison.png              # 480p vs 4K side-by-side comparison
@@ -459,16 +462,42 @@ Or navigate to Actions → Render Videos → Run workflow → scene: `all`, reso
 | Base Resolution | 854 × 480 (480p, 15 fps) |
 | High Quality | 1920 × 1080 (1080p, 60 fps) via `-pqh` |
 | 4K Upscale | 3840 × 2160 via Lanczos + color grading |
-| Total Duration | 4 minutes 1 second |
+| Total Duration | 4 min 1 s (480p); 3 min 45 s (1080p enhanced) |
 | Total Scenes | 13 |
 | Animation Classes Used | 8 (`FadeIn`, `FadeOut`, `Write`, `Create`, `GrowFromCenter`, `DrawBorderThenFill`, `ReplacementTransform`, `UpdateFromAlphaFunc`) |
 | Mobject Types Used | 12 (`Text`, `Dot`, `Circle`, `Line`, `VGroup`, `Rectangle`, `Ellipse`, `Polygon`, `RegularPolygon`, `Square`, `Arrow`, `NumberPlane`) |
 | Rate Functions Used | 4 (`exponential_decay`, `ease_out_cubic`, `linear`, `ease_in_cubic`) |
 | Codebase Size | ~2,700 lines of Manim Python |
 
+## Development
+
+### Render Time Estimates
+
+| Task | 480p15 | 1080p60 |
+|------|--------|---------|
+| Single scene | ~30-60s | ~3-5 min |
+| All 13 scenes (serial) | ~8-12 min | ~45-75 min |
+| Master video (`FullStoryScene`) | ~3-5 min | ~15-25 min |
+| 4K upscale (BigBangScene) | ~20-30s | N/A |
+| Ambient audio generation | ~10s | ~10s |
+
+*Times measured on a GitHub Codespace 4-core machine. Local machines with dedicated GPUs may be significantly faster.*
+
+### Workflow Tips
+
+- **Iteration**: Use `make render-scene S=SceneName QUALITY=l` for quick feedback
+- **High quality**: Use `make render-all QUALITY=h` for the final render (can take over an hour)
+- **Preview audio**: Run `make audio` after `make concat` to attach the ambient soundtrack
+- **Parallel rendering**: Individual scenes are independent and can be rendered concurrently (the Makefile does them serially; split across terminals for speed)
+- **Troubleshooting**: If Manim fails during render, run `manim -pq$(QUALITY) scripts/create_longform_video.py $(S) --verbose` for detailed logs
+
+### Scene Dependencies
+
+All 13 scenes are **independent** — each `Scene` subclass in `create_longform_video.py` can be rendered in isolation. The `full_video.py` master scene combines all chapters into a single `FullStoryScene` for one-pass rendering with chapter markers via `self.next_section()`.
+
 ## Downloads
 
-Pre-rendered videos are available as [GitHub Releases](https://github.com/NullLabTests/manim-evolution-story/releases). Each release includes the master video with audio and all 13 individual scenes as a downloadable archive. You can also trigger fresh renders at custom resolution via the [CI/CD pipeline](#cicd-pipeline).
+Pre-rendered videos are available as [GitHub Releases](https://github.com/NullLabTests/manim-evolution-story/releases). Each release includes the master video with audio and all 13 individual scenes as a downloadable archive. Trigger fresh renders at custom resolution via the [CI/CD pipeline](#cicd-pipeline) (workflow_dispatch).
 
 ## Citation
 
