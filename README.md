@@ -14,6 +14,17 @@
 
 An educational animated video series rendered with [Manim Community](https://www.manim.community/). This project produces a 4-minute journey through cosmic and biological evolution across 13 chapters, demonstrating a complete production pipeline from Python animation scripts to polished video output.
 
+<p align="center">
+  <img src="assets/chapter-timeline.svg" alt="Chapter timeline: 13 chapters spanning 13.8 billion years" width="100%">
+</p>
+
+<p align="center">
+  <img src="assets/preview_title.gif" alt="Title scene animation preview" width="45%">
+  <img src="assets/preview_bigbang.gif" alt="Big Bang scene animation preview" width="45%">
+  <br>
+  <em>Title sequence (left) and Big Bang cosmic inflation (right) — animated previews</em>
+</p>
+
 ---
 
 - [About](#about)
@@ -273,6 +284,13 @@ manim-evolution-story/
 ├── README.md
 ├── LICENSE                         # MIT License
 ├── requirements.txt                # manim + numpy
+├── assets/
+│   ├── chapter-timeline.svg        # Visual chapter timeline
+│   ├── preview_title.gif           # Animated title scene preview
+│   ├── preview_bigbang.gif         # Animated Big Bang scene preview
+│   ├── poster_4k.png               # 4K poster frame from Big Bang scene
+│   ├── poster_title.png            # Poster frame from title scene
+│   └── social-preview.png          # Social media preview banner
 ├── media/
 │   ├── master/
 │   │   ├── FullEvolutionStory.mp4              # Complete video (no audio)
