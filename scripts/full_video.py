@@ -22,45 +22,7 @@ Add voiceover back:
 from manim import *
 import numpy as np
 
-# ─── Colour Palette ──────────────────────────────────────────────────────────
-COSMIC_BG = ManimColor("#0a0a1a")
-C_WARM_GOLD = ManimColor("#FFD700")
-C_DEEP_BLUE = ManimColor("#1a237e")
-C_LIFE_GREEN = ManimColor("#4CAF50")
-C_OXYGEN_BLUE = ManimColor("#42A5F5")
-C_FIRE_RED = ManimColor("#FF5722")
-C_PRIMORDIAL = ManimColor("#FF8A65")
-C_HUMAN_TONE = ManimColor("#FFCC80")
-C_NEBULA_PINK = ManimColor("#E040FB")
-C_NEBULA_PURPLE = ManimColor("#7C4DFF")
-C_GALAXY_BLUE = ManimColor("#448AFF")
-
-# ─── Helper Functions ────────────────────────────────────────────────────────
-
-def make_timeline_label(scene, year_text, x_pos, label_text="", color=WHITE):
-    dot = Dot(radius=0.06, color=color).move_to([x_pos, -3.2, 0])
-    year = Text(year_text, font_size=14, color=color).next_to(dot, DOWN, buff=0.08)
-    label = Text(label_text, font_size=10, color=color).next_to(year, DOWN, buff=0.04)
-    return VGroup(dot, year, label)
-
-
-def create_star_field(num=120, width=14, height=8):
-    stars = VGroup()
-    for _ in range(num):
-        x = np.random.uniform(-width / 2, width / 2)
-        y = np.random.uniform(-height / 2, height / 2)
-        r = np.random.uniform(0.008, 0.025)
-        opacity = np.random.uniform(0.3, 1.0)
-        star = Dot(radius=r, color=WHITE, stroke_opacity=0).set_opacity(opacity)
-        star.move_to([x, y, 0])
-        stars.add(star)
-    return stars
-
-
-def create_glow_circle(radius=1.0, color=BLUE, opacity=0.15):
-    glow = Circle(radius=radius, color=color, stroke_opacity=0)
-    glow.set_fill(color=color, opacity=opacity)
-    return glow
+from shared import *
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -317,7 +279,6 @@ class FullStoryScene(Scene):
         self.wait(0.3)
 
         sun = Circle(radius=0.7, color=YELLOW, fill_opacity=0.9)
-        sun.set_fill(YELLOW, opacity=0.9)
         sun_glow = create_glow_circle(1.0, YELLOW, opacity=0.2)
         sun_glow.move_to(sun.get_center())
         self.play(GrowFromCenter(sun), run_time=1.0)
@@ -387,7 +348,6 @@ class FullStoryScene(Scene):
         self.play(FadeIn(year_label, shift=UP * 0.2), run_time=0.6)
 
         ocean = Rectangle(width=14, height=2.5, color=C_DEEP_BLUE, fill_opacity=0.6)
-        ocean.set_fill(C_DEEP_BLUE, opacity=0.6)
         ocean.to_edge(DOWN, buff=0)
         self.play(FadeIn(ocean, shift=UP * 0.5), run_time=1.0)
 
@@ -420,7 +380,6 @@ class FullStoryScene(Scene):
         membrane.move_to(center_point)
         membrane.set_fill(C_LIFE_GREEN, opacity=0.1)
         inner = Circle(radius=0.4, color=C_LIFE_GREEN, fill_opacity=0.05)
-        inner.set_fill(C_LIFE_GREEN, opacity=0.05)
         inner.move_to(center_point)
         self.play(DrawBorderThenFill(membrane), GrowFromCenter(inner), run_time=1.5)
 
@@ -466,7 +425,6 @@ class FullStoryScene(Scene):
         cyano_group = VGroup()
         for _ in range(8):
             cyano = Circle(radius=0.12, color=C_LIFE_GREEN, fill_opacity=0.7)
-            cyano.set_fill(C_LIFE_GREEN, opacity=0.7)
             cyano.move_to([np.random.uniform(-5, 5), np.random.uniform(-2.5, 0.5), 0])
             cyano_group.add(cyano)
         self.play(*[GrowFromCenter(c, run_time=np.random.uniform(0.3, 0.8)) for c in cyano_group], run_time=2.0)
@@ -478,7 +436,6 @@ class FullStoryScene(Scene):
         oxygen_bubbles = VGroup()
         for _ in range(25):
             bubble = Circle(radius=np.random.uniform(0.03, 0.07), color=C_OXYGEN_BLUE, fill_opacity=0.4)
-            bubble.set_fill(C_OXYGEN_BLUE, opacity=0.4)
             bubble.move_to([np.random.uniform(-5, 5), np.random.uniform(-2.5, -1), 0])
             bubble.set_opacity(0)
             oxygen_bubbles.add(bubble)
@@ -541,10 +498,8 @@ class FullStoryScene(Scene):
         euk.set_fill(PURPLE, opacity=0.08)
         euk.move_to(RIGHT * 3)
         nucleus = Circle(radius=0.25, color=PURPLE_A, fill_opacity=0.2)
-        nucleus.set_fill(PURPLE_A, opacity=0.2)
         nucleus.move_to(euk.get_center() + LEFT * 0.1)
         mito = Circle(radius=0.15, color=BLUE_D, fill_opacity=0.2)
-        mito.set_fill(BLUE_D, opacity=0.2)
         mito.move_to(euk.get_center() + RIGHT * 0.25 + UP * 0.15)
         euk_label = Text("Eukaryote", font_size=16, color=PURPLE)
         euk_label.next_to(euk, DOWN, buff=0.3)
@@ -583,11 +538,9 @@ class FullStoryScene(Scene):
         self.play(FadeIn(year_label, shift=UP * 0.2), run_time=0.6)
 
         seafloor = Rectangle(width=14, height=0.5, color="#2a1a0a", fill_opacity=1.0)
-        seafloor.set_fill("#2a1a0a", opacity=1.0)
         seafloor.to_edge(DOWN, buff=0)
         self.play(FadeIn(seafloor, shift=UP * 0.3), run_time=0.5)
         water = Rectangle(width=14, height=3.5, color=BLUE_D, fill_opacity=0.2)
-        water.set_fill(BLUE_D, opacity=0.2)
         water.next_to(seafloor, UP, buff=0)
         self.play(FadeIn(water, shift=UP * 0.3), run_time=0.5)
 
@@ -669,7 +622,6 @@ class FullStoryScene(Scene):
         self.play(FadeIn(year_label, shift=UP * 0.2), run_time=0.6)
 
         water_rect = Rectangle(width=5, height=5, color=BLUE_D, fill_opacity=0.3)
-        water_rect.set_fill(BLUE_D, opacity=0.3)
         water_rect.move_to(LEFT * 3.5)
         self.play(FadeIn(water_rect, shift=RIGHT * 0.3), run_time=0.5)
 
@@ -692,7 +644,6 @@ class FullStoryScene(Scene):
         self.play(Write(water_label), Write(land_label), run_time=0.5)
 
         fish_body = Ellipse(width=0.6, height=0.2, color=BLUE, fill_opacity=0.7)
-        fish_body.set_fill(BLUE, opacity=0.7)
         fish_body.move_to(LEFT * 4 + DOWN * 0.5)
         fish_tail = Polygon([-0.3, 0, 0], [-0.5, -0.15, 0], [-0.5, 0.15, 0], color=BLUE, fill_opacity=0.7)
         fish_tail.move_to(fish_body.get_left())
@@ -700,7 +651,6 @@ class FullStoryScene(Scene):
         self.play(GrowFromCenter(fish), run_time=0.8)
 
         tetrapod_body = Ellipse(width=0.5, height=0.25, color=C_LIFE_GREEN, fill_opacity=0.7)
-        tetrapod_body.set_fill(C_LIFE_GREEN, opacity=0.7)
         tetrapod_body.move_to(RIGHT * 1 + DOWN * 0.8)
         leg1 = Line(ORIGIN, [0.2, -0.2, 0], color=C_LIFE_GREEN, stroke_width=3)
         leg1.move_to(tetrapod_body.get_bottom() + LEFT * 0.15)
@@ -720,7 +670,6 @@ class FullStoryScene(Scene):
         for x in [2.5, 4, 5.5]:
             stem = Line([x, -2.0, 0], [x, -1.0, 0], color=C_LIFE_GREEN, stroke_width=3)
             crown = Circle(radius=0.15, color=C_LIFE_GREEN, fill_opacity=0.5)
-            crown.set_fill(C_LIFE_GREEN, opacity=0.5)
             crown.move_to([x, -0.8, 0])
             plants.add(stem, crown)
         self.play(*[Create(p, run_time=0.3) for p in plants], run_time=1.0)
@@ -731,10 +680,8 @@ class FullStoryScene(Scene):
         self.play(FadeIn(dino_text, shift=UP * 0.3), run_time=0.8)
 
         dino_body = Ellipse(width=0.8, height=0.4, color=C_WARM_GOLD, fill_opacity=0.7)
-        dino_body.set_fill(C_WARM_GOLD, opacity=0.7)
         dino_body.move_to(RIGHT * 3.5 + UP * 0.5)
         dino_head = Circle(radius=0.15, color=C_WARM_GOLD, fill_opacity=0.7)
-        dino_head.set_fill(C_WARM_GOLD, opacity=0.7)
         dino_head.move_to(RIGHT * 4.0 + UP * 0.7)
         dino_neck = Line(dino_body.get_right(), dino_head.get_bottom(), color=C_WARM_GOLD, stroke_width=4)
         dino_tail = Line(dino_body.get_left(), LEFT * 0.2 + RIGHT * 2.9 + UP * 0.3, color=C_WARM_GOLD, stroke_width=3)
@@ -761,7 +708,6 @@ class FullStoryScene(Scene):
         self.play(FadeIn(year_label, shift=UP * 0.2), run_time=0.6)
 
         asteroid = Circle(radius=0.2, color=C_FIRE_RED, fill_opacity=0.9)
-        asteroid.set_fill(C_FIRE_RED, opacity=0.9)
         asteroid.move_to(UP * 4 + RIGHT * 2)
         impact_point = DOWN * 2.5 + LEFT * 1
         self.play(asteroid.animate.move_to(impact_point), run_time=2.0, rate_func=rate_functions.ease_in_cubic)
@@ -796,7 +742,6 @@ class FullStoryScene(Scene):
         mammals = VGroup()
         for _ in range(6):
             body = Ellipse(width=0.25, height=0.15, color=C_HUMAN_TONE, fill_opacity=0.8)
-            body.set_fill(C_HUMAN_TONE, opacity=0.8)
             body.move_to([np.random.uniform(-5, 5), np.random.uniform(-2, 1), 0])
             body.set_opacity(0)
             mammals.add(body)
@@ -920,7 +865,6 @@ class FullStoryScene(Scene):
         for name, x_pos, color, date in species:
             dot = Dot(radius=0.08, color=color).move_to([x_pos, -2.5, 0])
             fig_circle = Circle(radius=0.12, color=color, fill_opacity=0.7)
-            fig_circle.set_fill(color, opacity=0.7)
             fig_circle.move_to([x_pos, -1.0, 0])
             fig_body = Line([x_pos, -0.88, 0], [x_pos, -1.4, 0], color=color, stroke_width=2)
             fig = VGroup(fig_circle, fig_body)
@@ -942,7 +886,6 @@ class FullStoryScene(Scene):
         for size, x_pos, color in brain_sizes:
             height = size / 1400 * 2.0
             bar = Rectangle(width=0.3, height=height, color=color, fill_opacity=0.6)
-            bar.set_fill(color, opacity=0.6)
             bar.move_to([x_pos, -2.0 + height / 2, 0])
             bar.set_opacity(0)
             brain_bars.add(bar)

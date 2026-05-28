@@ -16,48 +16,7 @@ Assembly (after rendering all scenes in 1080p60):
 from manim import *
 import numpy as np
 
-# ─── Colour Palette ──────────────────────────────────────────────────────────
-COSMIC_BG = ManimColor("#0a0a1a")
-C_WARM_GOLD = ManimColor("#FFD700")
-C_DEEP_BLUE = ManimColor("#1a237e")
-C_LIFE_GREEN = ManimColor("#4CAF50")
-C_OXYGEN_BLUE = ManimColor("#42A5F5")
-C_FIRE_RED = ManimColor("#FF5722")
-C_PRIMORDIAL = ManimColor("#FF8A65")
-C_HUMAN_TONE = ManimColor("#FFCC80")
-C_NEBULA_PINK = ManimColor("#E040FB")
-C_NEBULA_PURPLE = ManimColor("#7C4DFF")
-C_GALAXY_BLUE = ManimColor("#448AFF")
-
-# ─── Helper Functions ────────────────────────────────────────────────────────
-
-def make_timeline_label(scene, year_text, x_pos, label_text="", color=WHITE):
-    """Place a year label on a horizontal timeline. Returns the label group."""
-    dot = Dot(radius=0.06, color=color).move_to([x_pos, -3.2, 0])
-    year = Text(year_text, font_size=14, color=color).next_to(dot, DOWN, buff=0.08)
-    label = Text(label_text, font_size=10, color=color).next_to(year, DOWN, buff=0.04)
-    return VGroup(dot, year, label)
-
-
-def create_star_field(num=120, width=14, height=8):
-    """Create a field of small dots with varying opacity for starry backgrounds."""
-    stars = VGroup()
-    for _ in range(num):
-        x = np.random.uniform(-width / 2, width / 2)
-        y = np.random.uniform(-height / 2, height / 2)
-        r = np.random.uniform(0.008, 0.025)
-        opacity = np.random.uniform(0.3, 1.0)
-        star = Dot(radius=r, color=WHITE, stroke_opacity=0).set_opacity(opacity)
-        star.move_to([x, y, 0])
-        stars.add(star)
-    return stars
-
-
-def create_glow_circle(radius=1.0, color=BLUE, opacity=0.15):
-    """Create a glowing circle with a soft halo."""
-    glow = Circle(radius=radius, color=color, stroke_opacity=0)
-    glow.set_fill(color=color, opacity=opacity)
-    return glow
+from shared import *
 
 
 class AnimatedParticleBurst(Animation):
@@ -238,12 +197,6 @@ class BigBangScene(Scene):
         )
         self.wait(0.5)
 
-        def update_particles(mobs, dt):
-            for p in mobs:
-                p.shift((p.get_center() - p.start_pos) * 0.01)
-                if p.get_opacity() > 0:
-                    p.set_opacity(p.get_opacity() * 0.998)
-
         self.add(particles)
         self.play(FadeOut(particles, run_time=2.0))
 
@@ -340,13 +293,12 @@ class StarFormationScene(Scene):
 
         # Twinkle some stars
         for _ in range(2):
-            flicker_stars = stars_group.copy()
             self.play(
-                flicker_stars.animate.set_opacity(0.4),
+                stars_group.animate.set_opacity(0.4),
                 run_time=0.8,
             )
             self.play(
-                flicker_stars.animate.set_opacity(1),
+                stars_group.animate.set_opacity(1),
                 run_time=0.8,
             )
 
@@ -419,7 +371,6 @@ class SolarSystemScene(Scene):
 
         # Sun
         sun = Circle(radius=0.7, color=YELLOW, fill_opacity=0.9)
-        sun.set_fill(YELLOW, opacity=0.9)
         sun_glow = create_glow_circle(1.0, YELLOW, opacity=0.2)
         sun_glow.move_to(sun.get_center())
         self.play(GrowFromCenter(sun), run_time=1.0)
@@ -460,13 +411,6 @@ class SolarSystemScene(Scene):
         self.wait(0.5)
 
         # Animate orbits
-        def get_orbit_animation(planet, center, radius, speed):
-            def update(mob, alpha):
-                angle = alpha * 2 * np.pi * speed
-                mob.move_to(center + [radius * np.cos(angle), radius * np.sin(angle), 0])
-            return update
-
-        # Just do one orbit cycle
         self.play(
             *[
                 UpdateFromAlphaFunc(
@@ -589,7 +533,6 @@ class OriginOfLifeScene(Scene):
         membrane.set_fill(C_LIFE_GREEN, opacity=0.1)
 
         inner = Circle(radius=0.4, color=C_LIFE_GREEN, fill_opacity=0.05)
-        inner.set_fill(C_LIFE_GREEN, opacity=0.05)
         inner.move_to(center_point)
 
         self.play(
@@ -664,7 +607,6 @@ class GreatOxidationScene(Scene):
         cyano_group = VGroup()
         for i in range(8):
             cyano = Circle(radius=0.12, color=C_LIFE_GREEN, fill_opacity=0.7)
-            cyano.set_fill(C_LIFE_GREEN, opacity=0.7)
             x = np.random.uniform(-5, 5)
             y = np.random.uniform(-2.5, 0.5)
             cyano.move_to([x, y, 0])
@@ -684,7 +626,6 @@ class GreatOxidationScene(Scene):
         oxygen_bubbles = VGroup()
         for _ in range(25):
             bubble = Circle(radius=np.random.uniform(0.03, 0.07), color=C_OXYGEN_BLUE, fill_opacity=0.4)
-            bubble.set_fill(C_OXYGEN_BLUE, opacity=0.4)
             x = np.random.uniform(-5, 5)
             y = np.random.uniform(-2.5, -1)
             bubble.move_to([x, y, 0])
@@ -791,11 +732,9 @@ class EukaryotesScene(Scene):
 
         # Internal structures
         nucleus = Circle(radius=0.25, color=PURPLE_A, fill_opacity=0.2)
-        nucleus.set_fill(PURPLE_A, opacity=0.2)
         nucleus.move_to(euk.get_center() + LEFT * 0.1)
 
         mito = Circle(radius=0.15, color=BLUE_D, fill_opacity=0.2)
-        mito.set_fill(BLUE_D, opacity=0.2)
         mito.move_to(euk.get_center() + RIGHT * 0.25 + UP * 0.15)
 
         euk_label = Text("Eukaryote", font_size=16, color=PURPLE)
@@ -866,13 +805,11 @@ class CambrianExplosionScene(Scene):
 
         # Ocean floor
         seafloor = Rectangle(width=14, height=0.5, color="#2a1a0a", fill_opacity=1.0)
-        seafloor.set_fill("#2a1a0a", opacity=1.0)
         seafloor.to_edge(DOWN, buff=0)
         self.play(FadeIn(seafloor, shift=UP * 0.3), run_time=0.5)
 
         # Water gradient
         water = Rectangle(width=14, height=3.5, color=BLUE_D, fill_opacity=0.2)
-        water.set_fill(BLUE_D, opacity=0.2)
         water.next_to(seafloor, UP, buff=0)
         self.play(FadeIn(water, shift=UP * 0.3), run_time=0.5)
 
@@ -999,7 +936,6 @@ class SeaToLandScene(Scene):
 
         # Water area (left)
         water_rect = Rectangle(width=5, height=5, color=BLUE_D, fill_opacity=0.3)
-        water_rect.set_fill(BLUE_D, opacity=0.3)
         water_rect.move_to(LEFT * 3.5)
         self.play(FadeIn(water_rect, shift=RIGHT * 0.3), run_time=0.5)
 
@@ -1042,7 +978,6 @@ class SeaToLandScene(Scene):
 
         # Fish (simple)
         fish_body = Ellipse(width=0.6, height=0.2, color=BLUE, fill_opacity=0.7)
-        fish_body.set_fill(BLUE, opacity=0.7)
         fish_body.move_to(LEFT * 4 + DOWN * 0.5)
         fish_tail = Polygon(
             [-0.3, 0, 0],
@@ -1057,7 +992,6 @@ class SeaToLandScene(Scene):
 
         # Transition: fish grows legs
         tetrapod_body = Ellipse(width=0.5, height=0.25, color=C_LIFE_GREEN, fill_opacity=0.7)
-        tetrapod_body.set_fill(C_LIFE_GREEN, opacity=0.7)
         tetrapod_body.move_to(RIGHT * 1 + DOWN * 0.8)
         leg1 = Line(ORIGIN, [0.2, -0.2, 0], color=C_LIFE_GREEN, stroke_width=3)
         leg1.move_to(tetrapod_body.get_bottom() + LEFT * 0.15)
@@ -1092,7 +1026,6 @@ class SeaToLandScene(Scene):
         for x in [2.5, 4, 5.5]:
             stem = Line([x, -2.0, 0], [x, -1.0, 0], color=C_LIFE_GREEN, stroke_width=3)
             crown = Circle(radius=0.15, color=C_LIFE_GREEN, fill_opacity=0.5)
-            crown.set_fill(C_LIFE_GREEN, opacity=0.5)
             crown.move_to([x, -0.8, 0])
             plants.add(stem, crown)
 
@@ -1109,10 +1042,8 @@ class SeaToLandScene(Scene):
 
         # Simple dinosaur silhouette
         dino_body = Ellipse(width=0.8, height=0.4, color=C_WARM_GOLD, fill_opacity=0.7)
-        dino_body.set_fill(C_WARM_GOLD, opacity=0.7)
         dino_body.move_to(RIGHT * 3.5 + UP * 0.5)
         dino_head = Circle(radius=0.15, color=C_WARM_GOLD, fill_opacity=0.7)
-        dino_head.set_fill(C_WARM_GOLD, opacity=0.7)
         dino_head.move_to(RIGHT * 4.0 + UP * 0.7)
         dino_neck = Line(dino_body.get_right(), dino_head.get_bottom(), color=C_WARM_GOLD, stroke_width=4)
         dino_tail = Line(dino_body.get_left(), LEFT * 0.2 + RIGHT * 2.9 + UP * 0.3, color=C_WARM_GOLD, stroke_width=3)
@@ -1152,7 +1083,6 @@ class RiseOfMammalsScene(Scene):
 
         # Asteroid / comet impact
         asteroid = Circle(radius=0.2, color=C_FIRE_RED, fill_opacity=0.9)
-        asteroid.set_fill(C_FIRE_RED, opacity=0.9)
         asteroid.move_to(UP * 4 + RIGHT * 2)
 
         impact_point = DOWN * 2.5 + LEFT * 1
@@ -1218,7 +1148,6 @@ class RiseOfMammalsScene(Scene):
         mammals = VGroup()
         for i in range(6):
             body = Ellipse(width=0.25, height=0.15, color=C_HUMAN_TONE, fill_opacity=0.8)
-            body.set_fill(C_HUMAN_TONE, opacity=0.8)
             x = np.random.uniform(-5, 5)
             y = np.random.uniform(-2, 1)
             body.move_to([x, y, 0])
@@ -1426,7 +1355,6 @@ class HumanEvolutionScene(Scene):
 
             # Simple human-like figure (circle + body)
             fig_circle = Circle(radius=0.12, color=color, fill_opacity=0.7)
-            fig_circle.set_fill(color, opacity=0.7)
             fig_circle.move_to([x_pos, -1.0, 0])
 
             fig_body = Line(

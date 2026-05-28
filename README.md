@@ -95,6 +95,7 @@ Each chapter is a Manim `Scene` class written in Python. Two script files are pr
 
 | File | Purpose |
 |------|---------|
+| [`scripts/shared.py`](scripts/shared.py) | Shared color palette, constants, and helper functions imported by both animation scripts. |
 | [`scripts/full_video.py`](scripts/full_video.py) | All 13 chapters in one continuous `FullStoryScene`. Uses `self.next_section()` markers for FFmpeg chapter seeking. Best for single-pass rendering. |
 | [`scripts/create_longform_video.py`](scripts/create_longform_video.py) | 13 independent `Scene` subclasses (one per chapter) for per-scene rendering and rapid iteration. Includes a custom `AnimatedParticleBurst(Animation)` class. |
 
@@ -324,8 +325,9 @@ manim-evolution-story/
 │       ├── StarFormationScene.mp4
 │       └── TitleScene.mp4
 └── scripts/
-    ├── create_longform_video.py   # 13 independent scene classes
-    └── full_video.py              # Single continuous master scene
+    ├── shared.py                   # Shared palette, helpers, constants
+    ├── create_longform_video.py    # 13 independent scene classes
+    └── full_video.py               # Single continuous master scene
 ```
 
 ## Quick Start
