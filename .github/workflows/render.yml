@@ -7,18 +7,38 @@ on:
   workflow_dispatch:
     inputs:
       resolution:
-        description: 'Render quality (l=480p15, h=1080p60)'
+        description: 'Render quality'
         required: true
         default: 'l'
         type: choice
         options:
-          - l
-          - h
+          - l (480p15)
+          - h (1080p60)
       scene:
-        description: 'Scene class to render (or "all" / "master")'
+        description: 'Scene to render'
         required: true
         default: 'all'
-        type: string
+        type: choice
+        options:
+          - all
+          - master
+          - TitleScene
+          - BigBangScene
+          - StarFormationScene
+          - SolarSystemScene
+          - OriginOfLifeScene
+          - GreatOxidationScene
+          - EukaryotesScene
+          - CambrianExplosionScene
+          - SeaToLandScene
+          - RiseOfMammalsScene
+          - PrimateLineageScene
+          - HumanEvolutionScene
+          - ConclusionScene
+
+env:
+  SCENE: ${{ github.event.inputs.scene || 'all' }}
+  QUALITY: ${{ github.event.inputs.resolution || 'h' }}
 
 jobs:
   render:
@@ -30,26 +50,38 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: 'pip'
 
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y ffmpeg libcairo2-dev libpango1.0-dev
-          pip install -r requirements.txt
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libcairo2-dev libpango1.0-dev
 
-      - name: Render ${{ github.event.inputs.scene || 'all' }}
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Render master video
+        if: env.SCENE == 'master' || env.SCENE == 'all'
+        run: manim -pq${{ env.QUALITY }} scripts/full_video.py FullStoryScene
+
+      - name: Render individual scenes
+        if: env.SCENE == 'all'
         run: |
-          if [ "${{ github.event.inputs.scene }}" = "master" ] || [ "${{ github.event.inputs.scene }}" = "" ]; then
-            manim -pq${{ github.event.inputs.resolution || 'l' }} scripts/full_video.py FullStoryScene
-          elif [ "${{ github.event.inputs.scene }}" = "all" ]; then
-            for scene in TitleScene BigBangScene StarFormationScene SolarSystemScene OriginOfLifeScene GreatOxidationScene EukaryotesScene CambrianExplosionScene SeaToLandScene RiseOfMammalsScene PrimateLineageScene HumanEvolutionScene ConclusionScene; do
-              manim -pq${{ github.event.inputs.resolution || 'l' }} scripts/create_longform_video.py $scene
-            done
-          else
-            manim -pq${{ github.event.inputs.resolution || 'l' }} scripts/create_longform_video.py ${{ github.event.inputs.scene }}
-          fi
+          for scene in TitleScene BigBangScene StarFormationScene SolarSystemScene \
+                       OriginOfLifeScene GreatOxidationScene EukaryotesScene \
+                       CambrianExplosionScene SeaToLandScene RiseOfMammalsScene \
+                       PrimateLineageScene HumanEvolutionScene ConclusionScene; do
+            manim -pq${{ env.QUALITY }} scripts/create_longform_video.py $scene
+          done
 
-      - name: Upload videos as artifact
+      - name: Render single scene
+        if: env.SCENE != 'master' && env.SCENE != 'all'
+        run: manim -pq${{ env.QUALITY }} scripts/create_longform_video.py ${{ env.SCENE }}
+
+      - name: Upload rendered videos
         uses: actions/upload-artifact@v4
         with:
-          name: rendered-videos
+          name: rendered-videos-${{ env.SCENE }}-${{ env.QUALITY }}
           path: media/videos/
+          compression-level: 0
+          retention-days: 30

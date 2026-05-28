@@ -1,11 +1,17 @@
-# Manim output
-__pycache__/
-*.pyc
-*.pyo
-manim_cache/
+# Manim generated output (not to be confused with media/scenes/ and media/master/)
 media/videos/
 media/tex/
 media/text/
+manim_cache/
+manim_*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
 
 # OS
 .DS_Store
@@ -13,13 +19,21 @@ Thumbs.db
 *.swp
 *.swo
 *~
+.Directory
 
 # IDE
 .vscode/
 .idea/
 *.sublime-*
+*.sublime-project
+*.sublime-workspace
 
 # Temp
 tmp/
 temp/
 *.log
+*.bak
+*.orig
+
+# Audio working files
+/*.wav

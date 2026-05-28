@@ -1,31 +1,47 @@
-.PHONY: render-all render-scene master-video audio upscale clean
+.PHONY: help render-scene render-all master-video concat audio upscale clean
 
-# Render all 13 scenes at low quality (quick iteration)
+QUALITY ?= l
+
 SCENES = TitleScene BigBangScene StarFormationScene SolarSystemScene \
          OriginOfLifeScene GreatOxidationScene EukaryotesScene \
          CambrianExplosionScene SeaToLandScene RiseOfMammalsScene \
          PrimateLineageScene HumanEvolutionScene ConclusionScene
 
-# Render a specific scene (usage: make render-scene S=BigBangScene)
-render-scene:
-	manim -pql scripts/create_longform_video.py $(S)
+help:
+	@echo 'Manim Evolution Story — Makefile'
+	@echo ''
+	@echo 'Usage:'
+	@echo '  make render-scene S=<SceneName>   Render one scene (QUALITY=l|h)'
+	@echo '  make render-all                    Render all 13 scenes'
+	@echo '  make master-video                  Render full master video'
+	@echo '  make concat                        Concatenate scenes into master'
+	@echo '  make audio                         Generate ambient audio + add to master'
+	@echo '  make upscale                       Upscale BigBangScene to 4K'
+	@echo '  make clean                         Remove generated media'
+	@echo ''
+	@echo 'Variables:'
+	@echo '  QUALITY=l     Low quality  (480p15, default)'
+	@echo '  QUALITY=h     High quality (1080p60)'
+	@echo ''
+	@echo 'Examples:'
+	@echo '  make render-scene S=BigBangScene'
+	@echo '  make render-scene S=BigBangScene QUALITY=h'
 
-# Render all scenes
+render-scene:
+	manim -pq$(QUALITY) scripts/create_longform_video.py $(S)
+
 render-all:
 	for scene in $(SCENES); do \
-		manim -pql scripts/create_longform_video.py $$scene; \
+		manim -pq$(QUALITY) scripts/create_longform_video.py $$scene; \
 	done
 
-# Render full master video
 master-video:
-	manim -pql scripts/full_video.py FullStoryScene
+	manim -pq$(QUALITY) scripts/full_video.py FullStoryScene
 
-# Concatenate scenes into master (manually after rendering)
 concat:
 	@printf "file '$(PWD)/media/videos/create_longform_video/480p15/%s.mp4'\n" $(SCENES) > /tmp/scenes.txt
-	ffmpeg -f concat -safe 0 -i /tmp/scenes.txt -c copy media/master/FullEvolutionStory.mp4
+	ffmpeg -f concat -safe 0 -i /tmp/scenes.txt -c copy media/master/FullEvolutionStory.mp4 -y
 
-# Generate ambient audio
 audio:
 	ffmpeg -f lavfi -i "anoisesrc=d=245:c=pink:a=0.5" \
 		-f lavfi -i "sine=frequency=55:duration=245" \
@@ -37,7 +53,6 @@ audio:
 		-c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest \
 		media/master/FullEvolutionStory_WithSound.mp4 -y
 
-# Upscale BigBangScene to 4K
 upscale:
 	ffmpeg -i media/videos/create_longform_video/480p15/BigBangScene.mp4 \
 		-vf "scale=3840:2160:flags=lanczos,eq=brightness=0.05:contrast=1.1:saturation=1.2,unsharp=3:3:1.0:3:3:0.5" \
@@ -45,6 +60,5 @@ upscale:
 		-c:a aac -b:a 192k -movflags +faststart \
 		media/scenes/BigBangScene_4K_Cinematic.mp4 -y
 
-# Clean generated media
 clean:
 	rm -rf media/videos media/tex media/text
