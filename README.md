@@ -25,6 +25,14 @@ An educational animated video series rendered with [Manim Community](https://www
   <em>Title sequence (left) and Big Bang cosmic inflation (right) — animated previews</em>
 </p>
 
+<br>
+
+<p align="center">
+  <img src="assets/scene_thumbs.png" alt="Thumbnail overview of all 13 scenes" width="100%">
+  <br>
+  <em>All 13 chapters at a glance — from the Big Bang to modern humanity</em>
+</p>
+
 ---
 
 - [About](#about)
@@ -401,6 +409,14 @@ The result (`BigBangScene_4K_Cinematic.mp4`) shows that low-resolution Manim ren
   <img src="assets/comparison.png" alt="480p vs 4K comparison: same frame rendered at base resolution and upscaled" width="90%">
   <br>
   <em>Same frame at 480p (left) vs 4K cinematic upscale (right) — note the improved sharpness, contrast, and color depth</em>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="assets/audio_waveform.png" alt="Waveform of procedurally generated ambient audio track" width="90%">
+  <br>
+  <em>Procedurally generated ambient soundtrack — 4 minutes of pink noise layered with sine wave drones at 55, 110, and 165 Hz</em>
 </p>
 
 ## CI/CD Pipeline
