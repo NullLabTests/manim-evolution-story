@@ -279,13 +279,18 @@ manim-evolution-story/
 ├── .github/
 │   └── workflows/
 │       └── render.yml              # GitHub Actions CI/CD (tag + manual trigger)
+│       └── FUNDING.yml             # Sponsorship configuration
+├── .gitattributes                  # Binary/text file handling
 ├── .gitignore                      # Cache, Python, OS, IDE exclusions
+├── CITATION.cff                    # Academic citation metadata
+├── CONTRIBUTING.md                 # Contribution guidelines
 ├── Makefile                        # Convenience: render, concat, audio, upscale
 ├── README.md
 ├── LICENSE                         # MIT License
 ├── requirements.txt                # manim + numpy
 ├── assets/
 │   ├── chapter-timeline.svg        # Visual chapter timeline
+│   ├── comparison.png              # 480p vs 4K side-by-side comparison
 │   ├── preview_title.gif           # Animated title scene preview
 │   ├── preview_bigbang.gif         # Animated Big Bang scene preview
 │   ├── poster_4k.png               # 4K poster frame from Big Bang scene
@@ -392,6 +397,12 @@ make upscale
 
 The result (`BigBangScene_4K_Cinematic.mp4`) shows that low-resolution Manim renders can be effectively enhanced for professional presentation — from 854×480 to 3840×2160 (22.7× the pixel count).
 
+<p align="center">
+  <img src="assets/comparison.png" alt="480p vs 4K comparison: same frame rendered at base resolution and upscaled" width="90%">
+  <br>
+  <em>Same frame at 480p (left) vs 4K cinematic upscale (right) — note the improved sharpness, contrast, and color depth</em>
+</p>
+
 ## CI/CD Pipeline
 
 This repository includes a [GitHub Actions workflow](.github/workflows/render.yml) for automated rendering:
@@ -429,6 +440,26 @@ Or navigate to Actions → Render Videos → Run workflow → scene: `all`, reso
 | Mobject Types Used | 12 (`Text`, `Dot`, `Circle`, `Line`, `VGroup`, `Rectangle`, `Ellipse`, `Polygon`, `RegularPolygon`, `Square`, `Arrow`, `NumberPlane`) |
 | Rate Functions Used | 4 (`exponential_decay`, `ease_out_cubic`, `linear`, `ease_in_cubic`) |
 | Codebase Size | ~2,700 lines of Manim Python |
+
+## Downloads
+
+Pre-rendered videos are available as [GitHub Releases](https://github.com/NullLabTests/manim-evolution-story/releases). Each release includes the master video with audio and all 13 individual scenes as a downloadable archive. You can also trigger fresh renders at custom resolution via the [CI/CD pipeline](#cicd-pipeline).
+
+## Citation
+
+If you use this project in academic or educational work, please cite it:
+
+```bibtex
+@software{manim_evolution_story,
+  title     = {Manim Evolution Story: From the Big Bang to You},
+  version   = {1.0.0},
+  url       = {https://github.com/NullLabTests/manim-evolution-story},
+  publisher = {NullLab},
+  year      = {2026}
+}
+```
+
+A [CITATION.cff](CITATION.cff) file is also included in the repository.
 
 ## License
 

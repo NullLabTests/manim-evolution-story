@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this project in your work, please cite it as below."
+title: "Manim Evolution Story: From the Big Bang to You"
+version: "1.0.0"
+date-released: 2026-05-28
+authors:
+  - name: "NullLabTests"
+    affiliation: "NullLab"
+type: software
+repository-code: "https://github.com/NullLabTests/manim-evolution-story"
+abstract: >
+  An educational animated video series rendered with Manim Community Edition,
+  covering 13.8 billion years of evolutionary history across 13 animated chapters.
+  Demonstrates a complete production pipeline from Python animation scripts to
+  polished video output, including 4K upscaling and procedurally generated audio.
+keywords:
+  - manim
+  - evolution
+  - animation
+  - educational
+  - python
+license: MIT
