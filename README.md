@@ -311,8 +311,11 @@ manim-evolution-story/
 │   └── social-preview.png          # Social media preview banner
 ├── media/
 │   ├── master/
-│   │   ├── FullEvolutionStory.mp4              # Complete video (no audio)
-│   │   └── FullEvolutionStory_WithSound.mp4    # Complete video + ambient audio
+│   │   ├── FullEvolutionStory.mp4                # Complete video (no audio)
+│   │   ├── FullEvolutionStory_WithSound.mp4      # Complete video + ambient audio
+│   │   ├── FullEvolutionStory_Enhanced_480p.mp4   # Enhanced ambient audio, 480p
+│   │   ├── FullEvolutionStory_Enhanced_480p_concat.mp4  # Enhanced audio, concat build
+│   │   └── FullEvolutionStory_Enhanced_1080p.mp4  # Enhanced ambient audio, 1080p60
 │   └── scenes/
 │       ├── BigBangScene.mp4
 │       ├── BigBangScene_4K_Cinematic.mp4       # 4K upscale demo
