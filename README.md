@@ -94,8 +94,14 @@ ffmpeg -i BigBangScene.mp4 \
 
 ```
 manim-evolution-story/
-├── README.md                  # This file
-├── LICENSE                    # MIT License
+├── .github/
+│   └── workflows/
+│       └── render.yml              # GitHub Actions CI/CD for auto-rendering
+├── .gitignore                      # Ignores cache, temp, and generated files
+├── Makefile                        # Common commands (render-all, concat, audio, upscale)
+├── README.md                       # This file
+├── LICENSE                         # MIT License
+├── requirements.txt                # Python dependencies (pip install -r)
 ├── media/
 │   ├── master/
 │   │   ├── FullEvolutionStory.mp4              # Complete video (no audio)
@@ -137,23 +143,31 @@ Note: All videos were rendered at 480p15 resolution for quick local iteration. T
 - [FFmpeg](https://ffmpeg.org/) (for assembly & audio)
 - [SoX](https://sox.sourceforge.net/) (optional, for audio generation)
 
-### Running Locally
+### Quick Start
 
 ```bash
-# Install Manim
-pip install manim
-
-# Clone this repo
+# Clone & install
 git clone https://github.com/NullLabTests/manim-evolution-story.git
 cd manim-evolution-story
+pip install -r requirements.txt
 
-# Render a specific scene
-manim -pqh scripts/create_longform_video.py BigBangScene
+# Render a specific scene (using Makefile)
+make render-scene S=BigBangScene
 
-# Render the full video
-manim -pqh scripts/full_video.py FullStoryScene
+# Or manually:
+manim -pql scripts/create_longform_video.py BigBangScene
 
-# Output appears in the media/ directory
+# Render all 13 scenes at once
+make render-all
+
+# Render the full master video
+make master-video
+
+# Concatenate and add audio
+make concat audio
+
+# Upscale a scene to 4K
+make upscale
 ```
 
 ## 🎯 Key Technical Details
@@ -164,6 +178,21 @@ manim -pqh scripts/full_video.py FullStoryScene
 - **Audio**: Procedurally generated ambient soundtrack using FFmpeg's audio filters
 - **Resolution**: 854×480 (base), 3840×2160 (4K upscale demo)
 - **Frame Rate**: 15 fps (base), extensible to 60 fps with `-pqh`
+
+## 🤖 CI/CD Pipeline
+
+This repo includes a [GitHub Actions workflow](.github/workflows/render.yml) that can automatically render videos when triggered:
+
+- **On tag push** (`v*`): Auto-renders all scenes
+- **Manual dispatch**: Choose scene, resolution (`l`/`h`), and trigger from the Actions tab
+
+```yaml
+# Example: trigger a render of the full master at 1080p60
+# Go to Actions > Render Videos > Run workflow
+# Inputs: scene=master, resolution=h
+```
+
+Rendered videos are uploaded as build artifacts for download.
 
 ## 📄 License
 

@@ -1,0 +1,55 @@
+name: Render Videos
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      resolution:
+        description: 'Render quality (l=480p15, h=1080p60)'
+        required: true
+        default: 'l'
+        type: choice
+        options:
+          - l
+          - h
+      scene:
+        description: 'Scene class to render (or "all" / "master")'
+        required: true
+        default: 'all'
+        type: string
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg libcairo2-dev libpango1.0-dev
+          pip install -r requirements.txt
+
+      - name: Render ${{ github.event.inputs.scene || 'all' }}
+        run: |
+          if [ "${{ github.event.inputs.scene }}" = "master" ] || [ "${{ github.event.inputs.scene }}" = "" ]; then
+            manim -pq${{ github.event.inputs.resolution || 'l' }} scripts/full_video.py FullStoryScene
+          elif [ "${{ github.event.inputs.scene }}" = "all" ]; then
+            for scene in TitleScene BigBangScene StarFormationScene SolarSystemScene OriginOfLifeScene GreatOxidationScene EukaryotesScene CambrianExplosionScene SeaToLandScene RiseOfMammalsScene PrimateLineageScene HumanEvolutionScene ConclusionScene; do
+              manim -pq${{ github.event.inputs.resolution || 'l' }} scripts/create_longform_video.py $scene
+            done
+          else
+            manim -pq${{ github.event.inputs.resolution || 'l' }} scripts/create_longform_video.py ${{ github.event.inputs.scene }}
+          fi
+
+      - name: Upload videos as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered-videos
+          path: media/videos/

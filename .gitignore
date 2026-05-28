@@ -1,0 +1,25 @@
+# Manim output
+__pycache__/
+*.pyc
+*.pyo
+manim_cache/
+media/videos/
+media/tex/
+media/text/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Temp
+tmp/
+temp/
+*.log
