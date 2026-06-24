@@ -1,39 +1,23 @@
-# Manim generated output (not to be confused with media/scenes/ and media/master/)
-media/videos/
-media/tex/
-media/text/
-manim_cache/
-manim_*.log
-
-# Python
+# Byte-compiled
 __pycache__/
 *.py[cod]
-*.pyo
-*.egg-info/
-dist/
-build/
+*$py.class
 
-# OS
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
-*~
-.Directory
+# Env
+.env
+.venv
+venv/
 
 # IDE
 .vscode/
 .idea/
-*.sublime-*
-*.sublime-project
-*.sublime-workspace
+*.swp
 
-# Temp
-tmp/
-temp/
-*.log
-*.bak
-*.orig
+# OS
+.DS_Store
+Thumbs.db
 
-# Audio working files
-/*.wav
+# Build
+dist/
+build/
+*.egg-info/
