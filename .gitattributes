@@ -1,25 +1,10 @@
-# Auto-detect text files
+# Auto-detect text files and normalize line endings
 * text=auto
 
-# Source code
+# Python
 *.py text diff=python
-*.yml text
-*.yaml text
-*.md text
-*.txt text
-*.cfg text
-*.ini text
-*.toml text
 
-# Assets
-*.svg text
+# Binary
 *.png binary
-*.gif binary
-
-# Media
-*.mp4 binary
-*.wav binary
-
-# Git
-*.gitattributes text
-*.gitignore text
+*.jpg binary
+*.ico binary
