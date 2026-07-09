@@ -572,7 +572,7 @@ class FullStoryScene(Scene):
             label.move_to(pos)
             label.set_opacity(0)
             name_labels.add(label)
-        self.play(*[FadeIn(l, run_time=0.5) for l in name_labels], run_time=1.0)
+        self.play(*[FadeIn(label, run_time=0.5) for label in name_labels], run_time=1.0)
         self.wait(0.3)
 
         for i, c in enumerate(creatures):
@@ -807,7 +807,7 @@ class FullStoryScene(Scene):
             label.next_to(branch_line, RIGHT, buff=0.1)
             branches.add(branch_line)
             branch_labels.add(label)
-        self.play(*[Create(b) for b in branches], *[Write(l) for l in branch_labels], run_time=2.0)
+        self.play(*[Create(b) for b in branches], *[Write(label) for label in branch_labels], run_time=2.0)
         self.wait(0.5)
 
         human_branch_start = tree_start[1] + 3.2 * 3.0 + 0.5

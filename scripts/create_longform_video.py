@@ -850,7 +850,7 @@ class CambrianExplosionScene(Scene):
             name_labels.add(label)
 
         self.play(
-            *[FadeIn(l, run_time=0.5) for l in name_labels],
+            *[FadeIn(label, run_time=0.5) for label in name_labels],
             run_time=1.0,
         )
         self.wait(0.3)
@@ -1226,7 +1226,7 @@ class PrimateLineageScene(Scene):
 
         # Evolutionary tree for primates
         tree_start = DOWN * 2 + LEFT * 4
-        tree_top = UP * 1.5 + RIGHT * 4
+        _tree_top = UP * 1.5 + RIGHT * 4
 
         # Main trunk
         trunk = Line(
@@ -1261,7 +1261,7 @@ class PrimateLineageScene(Scene):
 
         self.play(
             *[Create(b) for b in branches],
-            *[Write(l) for l in branch_labels],
+            *[Write(label) for label in branch_labels],
             run_time=2.0,
         )
         self.wait(0.5)
