@@ -14,7 +14,7 @@ authors = [{name = "NullLabTests"}]
 
 dependencies = [
     "manim>=0.19.0,<2.0.0",
-    "numpy>=1.22.0,<2.0.0",
+    "numpy>=2.1",
 ]
 
 [tool.ruff]
