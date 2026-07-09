@@ -59,6 +59,7 @@ class AnimatedParticleBurst(Animation):
 # SCENE 1: Title – "The Story of Everything"
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 class TitleScene(Scene):
     def construct(self):
         self.camera.background_color = COSMIC_BG
@@ -126,6 +127,7 @@ class TitleScene(Scene):
 # SCENE 2: The Big Bang & Cosmic Inflation
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 class BigBangScene(Scene):
     def construct(self):
         self.camera.background_color = "#000000"
@@ -188,9 +190,7 @@ class BigBangScene(Scene):
 
         self.play(
             *[
-                p.animate(run_time=np.random.uniform(0.8, 2.0)).set_opacity(
-                    np.random.uniform(0.3, 1.0)
-                )
+                p.animate(run_time=np.random.uniform(0.8, 2.0)).set_opacity(np.random.uniform(0.3, 1.0))
                 for p in particles
             ],
             run_time=2.0,
@@ -229,6 +229,7 @@ class BigBangScene(Scene):
 # SCENE 3: Formation of Stars, Galaxies & Heavy Elements
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 class StarFormationScene(Scene):
     def construct(self):
         self.camera.background_color = COSMIC_BG
@@ -252,11 +253,13 @@ class StarFormationScene(Scene):
                 stroke_opacity=0,
                 fill_opacity=0.15,
             )
-            n.move_to([
-                np.random.uniform(-5, 5),
-                np.random.uniform(-2, 2),
-                0,
-            ])
+            n.move_to(
+                [
+                    np.random.uniform(-5, 5),
+                    np.random.uniform(-2, 2),
+                    0,
+                ]
+            )
             nebulae.add(n)
 
         self.play(
@@ -272,19 +275,19 @@ class StarFormationScene(Scene):
                 radius=np.random.uniform(0.015, 0.04),
                 color=interpolate_color(BLUE, C_WARM_GOLD, np.random.random()),
             )
-            s.move_to([
-                np.random.uniform(-6, 6),
-                np.random.uniform(-3, 3),
-                0,
-            ])
+            s.move_to(
+                [
+                    np.random.uniform(-6, 6),
+                    np.random.uniform(-3, 3),
+                    0,
+                ]
+            )
             s.set_opacity(0)
             stars_group.add(s)
 
         self.play(
             *[
-                s.animate(run_time=np.random.uniform(0.3, 1.5)).set_opacity(
-                    np.random.uniform(0.5, 1.0)
-                )
+                s.animate(run_time=np.random.uniform(0.3, 1.5)).set_opacity(np.random.uniform(0.5, 1.0))
                 for s in stars_group
             ],
             run_time=2.5,
@@ -356,6 +359,7 @@ class StarFormationScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 4: Birth of Our Solar System & Early Earth
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class SolarSystemScene(Scene):
     def construct(self):
@@ -453,8 +457,9 @@ class SolarSystemScene(Scene):
         self.wait(1.5)
 
         self.play(
-            FadeOut(VGroup(title, year_label, sun, sun_glow, orbits, planets,
-                          earth_highlight, earth_label, earth_info)),
+            FadeOut(
+                VGroup(title, year_label, sun, sun_glow, orbits, planets, earth_highlight, earth_label, earth_info)
+            ),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -463,6 +468,7 @@ class SolarSystemScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 5: Origin of Life – First Cells / LUCA
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class OriginOfLifeScene(Scene):
     def construct(self):
@@ -477,10 +483,7 @@ class OriginOfLifeScene(Scene):
         self.play(FadeIn(year_label, shift=UP * 0.2), run_time=0.6)
 
         # Primordial ocean
-        ocean = Rectangle(
-            width=14, height=2.5,
-            color=C_DEEP_BLUE, fill_opacity=0.6
-        )
+        ocean = Rectangle(width=14, height=2.5, color=C_DEEP_BLUE, fill_opacity=0.6)
         ocean.set_fill(C_DEEP_BLUE, opacity=0.6)
         ocean.to_edge(DOWN, buff=0)
         self.play(FadeIn(ocean, shift=UP * 0.5), run_time=1.0)
@@ -512,8 +515,12 @@ class OriginOfLifeScene(Scene):
         # Molecules combine - animate toward center
         center_point = np.array([0, -1, 0])
         self.play(
-            *[m.animate.move_to(center_point + np.array([np.random.uniform(-0.3, 0.3), np.random.uniform(-0.3, 0.3), 0]))
-              for m in molecules],
+            *[
+                m.animate.move_to(
+                    center_point + np.array([np.random.uniform(-0.3, 0.3), np.random.uniform(-0.3, 0.3), 0])
+                )
+                for m in molecules
+            ],
             run_time=2.0,
         )
         self.wait(0.3)
@@ -564,8 +571,7 @@ class OriginOfLifeScene(Scene):
         self.wait(0.5)
 
         self.play(
-            FadeOut(VGroup(title, year_label, ocean, molecules,
-                          membrane, membrane2, inner, luca_label, luca_sub)),
+            FadeOut(VGroup(title, year_label, ocean, molecules, membrane, membrane2, inner, luca_label, luca_sub)),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -574,6 +580,7 @@ class OriginOfLifeScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 6: The Great Oxidation Event
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class GreatOxidationScene(Scene):
     def construct(self):
@@ -634,7 +641,9 @@ class GreatOxidationScene(Scene):
 
         self.play(
             *[
-                bubble.animate(run_time=np.random.uniform(0.5, 1.5)).set_opacity(0.6).shift(UP * np.random.uniform(1, 3))
+                bubble.animate(run_time=np.random.uniform(0.5, 1.5))
+                .set_opacity(0.6)
+                .shift(UP * np.random.uniform(1, 3))
                 for bubble in oxygen_bubbles
             ],
             run_time=2.5,
@@ -659,9 +668,23 @@ class GreatOxidationScene(Scene):
         self.wait(1.5)
 
         self.play(
-            FadeOut(VGroup(title, year_label, timeline, start_label, end_label,
-                          goe_dot, goe_label, cyano_group, cyano_text,
-                          oxygen_bubbles, o2_text, rust_info, extinction_text)),
+            FadeOut(
+                VGroup(
+                    title,
+                    year_label,
+                    timeline,
+                    start_label,
+                    end_label,
+                    goe_dot,
+                    goe_label,
+                    cyano_group,
+                    cyano_text,
+                    oxygen_bubbles,
+                    o2_text,
+                    rust_info,
+                    extinction_text,
+                )
+            ),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -670,6 +693,7 @@ class GreatOxidationScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 7: Eukaryotes & Complex Cells
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class EukaryotesScene(Scene):
     def construct(self):
@@ -779,9 +803,25 @@ class EukaryotesScene(Scene):
         self.wait(2.0)
 
         self.play(
-            FadeOut(VGroup(title, year_label, prok, prok_label, dna_line,
-                          prey, engulf_flash, arrow, euk, nucleus, mito,
-                          euk_label, nucleus_label, mito_label, endo_text)),
+            FadeOut(
+                VGroup(
+                    title,
+                    year_label,
+                    prok,
+                    prok_label,
+                    dna_line,
+                    prey,
+                    engulf_flash,
+                    arrow,
+                    euk,
+                    nucleus,
+                    mito,
+                    euk_label,
+                    nucleus_label,
+                    mito_label,
+                    endo_text,
+                )
+            ),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -790,6 +830,7 @@ class EukaryotesScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 8: Cambrian Explosion – Life Diversifies
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class CambrianExplosionScene(Scene):
     def construct(self):
@@ -910,9 +951,21 @@ class CambrianExplosionScene(Scene):
         self.wait(2.0)
 
         self.play(
-            FadeOut(VGroup(title, year_label, seafloor, water, creatures,
-                          name_labels, tree_line, tree_title,
-                          branch_lines, branch_texts, diversity_text)),
+            FadeOut(
+                VGroup(
+                    title,
+                    year_label,
+                    seafloor,
+                    water,
+                    creatures,
+                    name_labels,
+                    tree_line,
+                    tree_title,
+                    branch_lines,
+                    branch_texts,
+                    diversity_text,
+                )
+            ),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -921,6 +974,7 @@ class CambrianExplosionScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 9: From Sea to Land (Tetrapods & Dinosaurs)
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class SeaToLandScene(Scene):
     def construct(self):
@@ -957,7 +1011,8 @@ class SeaToLandScene(Scene):
             [7, -2.5, 0],
             [7, 2.5, 0],
             [0.5, 2.5, 0],
-            color="#1a3a1a", fill_opacity=0.6,
+            color="#1a3a1a",
+            fill_opacity=0.6,
             stroke_opacity=0,
         )
         land_area.set_fill("#1a3a1a", opacity=0.6)
@@ -979,12 +1034,7 @@ class SeaToLandScene(Scene):
         # Fish (simple)
         fish_body = Ellipse(width=0.6, height=0.2, color=BLUE, fill_opacity=0.7)
         fish_body.move_to(LEFT * 4 + DOWN * 0.5)
-        fish_tail = Polygon(
-            [-0.3, 0, 0],
-            [-0.5, -0.15, 0],
-            [-0.5, 0.15, 0],
-            color=BLUE, fill_opacity=0.7
-        )
+        fish_tail = Polygon([-0.3, 0, 0], [-0.5, -0.15, 0], [-0.5, 0.15, 0], color=BLUE, fill_opacity=0.7)
         fish_tail.move_to(fish_body.get_left())
         fish = VGroup(fish_body, fish_tail)
 
@@ -1002,7 +1052,8 @@ class SeaToLandScene(Scene):
         transition_arrow = Arrow(
             fish.get_right(),
             tetrapod.get_left(),
-            color=GREY, stroke_width=2,
+            color=GREY,
+            stroke_width=2,
         )
 
         self.play(
@@ -1047,7 +1098,9 @@ class SeaToLandScene(Scene):
         dino_head.move_to(RIGHT * 4.0 + UP * 0.7)
         dino_neck = Line(dino_body.get_right(), dino_head.get_bottom(), color=C_WARM_GOLD, stroke_width=4)
         dino_tail = Line(dino_body.get_left(), LEFT * 0.2 + RIGHT * 2.9 + UP * 0.3, color=C_WARM_GOLD, stroke_width=3)
-        dino_leg = Line(dino_body.get_bottom() + LEFT * 0.1, RIGHT * 3.4 + DOWN * 0.2, color=C_WARM_GOLD, stroke_width=3)
+        dino_leg = Line(
+            dino_body.get_bottom() + LEFT * 0.1, RIGHT * 3.4 + DOWN * 0.2, color=C_WARM_GOLD, stroke_width=3
+        )
 
         dino_group = VGroup(dino_body, dino_head, dino_neck, dino_tail, dino_leg)
         self.play(
@@ -1057,9 +1110,24 @@ class SeaToLandScene(Scene):
         self.wait(2.0)
 
         self.play(
-            FadeOut(VGroup(title, year_label, water_rect, land_area, land,
-                          water_label, land_label, fish, transition_arrow,
-                          tetrapod, tiktaalik_label, plants, dino_text, dino_group)),
+            FadeOut(
+                VGroup(
+                    title,
+                    year_label,
+                    water_rect,
+                    land_area,
+                    land,
+                    water_label,
+                    land_label,
+                    fish,
+                    transition_arrow,
+                    tetrapod,
+                    tiktaalik_label,
+                    plants,
+                    dino_text,
+                    dino_group,
+                )
+            ),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -1068,6 +1136,7 @@ class SeaToLandScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 10: Rise of Mammals after the Dinosaurs
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class RiseOfMammalsScene(Scene):
     def construct(self):
@@ -1111,10 +1180,7 @@ class RiseOfMammalsScene(Scene):
             rings.add(ring)
 
         self.play(
-            *[
-                ring.animate.scale(8).set_opacity(0)
-                for ring in rings
-            ],
+            *[ring.animate.scale(8).set_opacity(0) for ring in rings],
             run_time=1.5,
         )
 
@@ -1172,9 +1238,9 @@ class RiseOfMammalsScene(Scene):
         # Grow some mammals bigger
         self.play(
             *[
-                mammals[i].animate.scale(np.random.uniform(1.5, 3.0)).set_color(
-                    [C_HUMAN_TONE, C_NEBULA_PINK, C_WARM_GOLD, C_LIFE_GREEN, C_OXYGEN_BLUE, C_PRIMORDIAL][i]
-                )
+                mammals[i]
+                .animate.scale(np.random.uniform(1.5, 3.0))
+                .set_color([C_HUMAN_TONE, C_NEBULA_PINK, C_WARM_GOLD, C_LIFE_GREEN, C_OXYGEN_BLUE, C_PRIMORDIAL][i])
                 for i in range(len(mammals))
             ],
             run_time=2.0,
@@ -1201,8 +1267,9 @@ class RiseOfMammalsScene(Scene):
         self.wait(2.0)
 
         self.play(
-            FadeOut(VGroup(title, year_label, asteroid, impact_glow, rings,
-                          mammals, mammal_text, radiation_text, examples)),
+            FadeOut(
+                VGroup(title, year_label, asteroid, impact_glow, rings, mammals, mammal_text, radiation_text, examples)
+            ),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -1211,6 +1278,7 @@ class RiseOfMammalsScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 11: Primate Lineage & Early Hominins
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class PrimateLineageScene(Scene):
     def construct(self):
@@ -1232,7 +1300,8 @@ class PrimateLineageScene(Scene):
         trunk = Line(
             tree_start,
             tree_start + UP * 3.5,
-            color=GREY_D, stroke_width=3,
+            color=GREY_D,
+            stroke_width=3,
         )
         self.play(Create(trunk), run_time=0.5)
 
@@ -1252,7 +1321,8 @@ class PrimateLineageScene(Scene):
             branch_line = Line(
                 [tree_start[0] + 0.5, y, 0],
                 [tree_start[0] + 2.0, y, 0],
-                color=color, stroke_width=2,
+                color=color,
+                stroke_width=2,
             )
             label = Text(name, font_size=12, color=color)
             label.next_to(branch_line, RIGHT, buff=0.1)
@@ -1271,7 +1341,8 @@ class PrimateLineageScene(Scene):
         human_line = Line(
             [tree_start[0] + 0.5, human_branch_start, 0],
             [tree_start[0] + 0.5, tree_start[1] + 3.8, 0],
-            color=C_WARM_GOLD, stroke_width=3,
+            color=C_WARM_GOLD,
+            stroke_width=3,
         )
         human_label = Text("Hominins", font_size=14, color=C_WARM_GOLD, weight=BOLD)
         human_label.next_to(human_line, LEFT, buff=0.3)
@@ -1309,8 +1380,11 @@ class PrimateLineageScene(Scene):
         self.wait(2.0)
 
         self.play(
-            FadeOut(VGroup(title, year_label, trunk, branches, branch_labels,
-                          human_line, human_label, adaptations, bipedalism)),
+            FadeOut(
+                VGroup(
+                    title, year_label, trunk, branches, branch_labels, human_line, human_label, adaptations, bipedalism
+                )
+            ),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -1319,6 +1393,7 @@ class PrimateLineageScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 12: The Human Story – Australopithecus → Homo sapiens
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class HumanEvolutionScene(Scene):
     def construct(self):
@@ -1360,7 +1435,8 @@ class HumanEvolutionScene(Scene):
             fig_body = Line(
                 [x_pos, -0.88, 0],
                 [x_pos, -1.4, 0],
-                color=color, stroke_width=2,
+                color=color,
+                stroke_width=2,
             )
 
             fig = VGroup(fig_circle, fig_body)
@@ -1455,9 +1531,21 @@ class HumanEvolutionScene(Scene):
         self.wait(1.5)
 
         self.play(
-            FadeOut(VGroup(title, year_label, timeline, species_marks,
-                          species_labels, brain_title, brain_bars, brain_cc,
-                          tech_title, tech_group, africa_text)),
+            FadeOut(
+                VGroup(
+                    title,
+                    year_label,
+                    timeline,
+                    species_marks,
+                    species_labels,
+                    brain_title,
+                    brain_bars,
+                    brain_cc,
+                    tech_title,
+                    tech_group,
+                    africa_text,
+                )
+            ),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -1466,6 +1554,7 @@ class HumanEvolutionScene(Scene):
 # ═══════════════════════════════════════════════════════════════════════════════
 # SCENE 13: Conclusion – We Are the Universe Experiencing Itself
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class ConclusionScene(Scene):
     def construct(self):

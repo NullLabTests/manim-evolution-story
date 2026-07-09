@@ -29,6 +29,7 @@ from shared import *
 # MASTER SCENE — All 13 chapters in sequence
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 class FullStoryScene(Scene):
     def construct(self):
         self.camera.background_color = COSMIC_BG
@@ -58,13 +59,16 @@ class FullStoryScene(Scene):
 
         subtitle = Text(
             "THE EPIC 13.8-BILLION-YEAR STORY OF EVOLUTION",
-            font_size=28, color=GREY_B,
+            font_size=28,
+            color=GREY_B,
         )
         subtitle.next_to(ORIGIN, DOWN, buff=0.8)
 
         title = Text(
             "From the Big Bang to You",
-            font_size=54, color=C_WARM_GOLD, weight=BOLD,
+            font_size=54,
+            color=C_WARM_GOLD,
+            weight=BOLD,
         )
         title.move_to(ORIGIN)
 
@@ -121,14 +125,18 @@ class FullStoryScene(Scene):
         flash.move_to(singularity.get_center())
         self.play(
             flash.animate.scale(30).set_opacity(0),
-            run_time=1.5, rate_func=exponential_decay,
+            run_time=1.5,
+            rate_func=exponential_decay,
         )
         self.wait(0.2)
 
         grid = NumberPlane(
-            x_range=[-20, 20, 1], y_range=[-12, 12, 1],
+            x_range=[-20, 20, 1],
+            y_range=[-12, 12, 1],
             background_line_style={
-                "stroke_color": BLUE_D, "stroke_width": 0.5, "stroke_opacity": 0.3,
+                "stroke_color": BLUE_D,
+                "stroke_width": 0.5,
+                "stroke_opacity": 0.3,
             },
             axis_config={"stroke_opacity": 0},
         )
@@ -136,7 +144,8 @@ class FullStoryScene(Scene):
         self.add(grid)
         self.play(
             grid.animate.scale(100),
-            run_time=3.0, rate_func=rate_functions.ease_out_cubic,
+            run_time=3.0,
+            rate_func=rate_functions.ease_out_cubic,
         )
 
         particles = VGroup()
@@ -153,8 +162,10 @@ class FullStoryScene(Scene):
             particles.add(p)
 
         self.play(
-            *[p.animate(run_time=np.random.uniform(0.8, 2.0)).set_opacity(
-                np.random.uniform(0.3, 1.0)) for p in particles],
+            *[
+                p.animate(run_time=np.random.uniform(0.8, 2.0)).set_opacity(np.random.uniform(0.3, 1.0))
+                for p in particles
+            ],
             run_time=2.0,
         )
         self.wait(0.5)
@@ -177,7 +188,9 @@ class FullStoryScene(Scene):
         self.wait(1.0)
         self.play(
             FadeOut(force_group, shift=DOWN * 0.3),
-            FadeOut(grid), FadeOut(label), FadeOut(year_label),
+            FadeOut(grid),
+            FadeOut(label),
+            FadeOut(year_label),
             run_time=1.5,
         )
         self.wait(0.3)
@@ -200,8 +213,10 @@ class FullStoryScene(Scene):
         nebulae = VGroup()
         for color in nebula_colors:
             n = Circle(
-                radius=np.random.uniform(1.5, 3.0), color=color,
-                stroke_opacity=0, fill_opacity=0.15,
+                radius=np.random.uniform(1.5, 3.0),
+                color=color,
+                stroke_opacity=0,
+                fill_opacity=0.15,
             )
             n.move_to([np.random.uniform(-5, 5), np.random.uniform(-2, 2), 0])
             nebulae.add(n)
@@ -218,8 +233,10 @@ class FullStoryScene(Scene):
             s.set_opacity(0)
             stars_group.add(s)
         self.play(
-            *[s.animate(run_time=np.random.uniform(0.3, 1.5)).set_opacity(np.random.uniform(0.5, 1.0))
-              for s in stars_group],
+            *[
+                s.animate(run_time=np.random.uniform(0.3, 1.5)).set_opacity(np.random.uniform(0.5, 1.0))
+                for s in stars_group
+            ],
             run_time=2.5,
         )
         self.wait(0.8)
@@ -239,29 +256,30 @@ class FullStoryScene(Scene):
             d.set_opacity(0)
             spiral_group.add(d)
         self.play(
-            *[d.animate(run_time=0.1 + i * 0.04).set_opacity(0.8)
-              for i, d in enumerate(spiral_group[1:])],
+            *[d.animate(run_time=0.1 + i * 0.04).set_opacity(0.8) for i, d in enumerate(spiral_group[1:])],
             run_time=3.0,
         )
         spiral2 = spiral_group.copy()
         spiral2.move_to([3, -1.5, 0])
         self.play(
-            *[d.animate(run_time=0.1 + i * 0.04).set_opacity(0.8)
-              for i, d in enumerate(spiral2[1:])],
+            *[d.animate(run_time=0.1 + i * 0.04).set_opacity(0.8) for i, d in enumerate(spiral2[1:])],
             run_time=2.5,
         )
         self.wait(0.5)
 
         elements_text = Text(
             "First elements: H, He  →  then stars forge C, O, Fe, Au...",
-            font_size=24, color=GREY_B,
+            font_size=24,
+            color=GREY_B,
             t2c={"H, He": BLUE, "C, O, Fe, Au": C_WARM_GOLD},
         )
         elements_text.to_edge(DOWN, buff=0.5)
         self.play(FadeIn(elements_text, shift=UP * 0.3), run_time=1.2)
         self.wait(2.0)
 
-        self.play(FadeOut(VGroup(title, year_label, nebulae, stars_group, spiral_group, spiral2, elements_text)), run_time=1.5)
+        self.play(
+            FadeOut(VGroup(title, year_label, nebulae, stars_group, spiral_group, spiral2, elements_text)), run_time=1.5
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 4: Solar System ──────────────────────────────────────────
@@ -286,10 +304,14 @@ class FullStoryScene(Scene):
         self.wait(0.3)
 
         orbit_data = [
-            (0.35, 1.2, BLUE_D, "Mercury"), (0.45, 1.7, GREY, "Venus"),
-            (0.5, 2.3, BLUE, "Earth"), (0.4, 3.0, RED, "Mars"),
-            (0.6, 4.2, ORANGE, "Jupiter"), (0.55, 5.0, GOLD, "Saturn"),
-            (0.5, 5.8, BLUE_C, "Uranus"), (0.48, 6.5, PURPLE_D, "Neptune"),
+            (0.35, 1.2, BLUE_D, "Mercury"),
+            (0.45, 1.7, GREY, "Venus"),
+            (0.5, 2.3, BLUE, "Earth"),
+            (0.4, 3.0, RED, "Mars"),
+            (0.6, 4.2, ORANGE, "Jupiter"),
+            (0.55, 5.0, GOLD, "Saturn"),
+            (0.5, 5.8, BLUE_C, "Uranus"),
+            (0.48, 6.5, PURPLE_D, "Neptune"),
         ]
         planets = VGroup()
         orbits = VGroup()
@@ -304,19 +326,23 @@ class FullStoryScene(Scene):
         self.play(*[GrowFromCenter(p, run_time=0.4) for p in planets], run_time=2.0)
         self.wait(0.5)
 
-        self.play(*[
-            UpdateFromAlphaFunc(
-                planet,
-                lambda m, a, idx=i: m.move_to(
-                    sun.get_center() + [
-                        orbit_data[idx][1] * np.cos(a * 2 * np.pi * np.random.uniform(0.3, 0.8)),
-                        orbit_data[idx][1] * np.sin(a * 2 * np.pi * np.random.uniform(0.3, 0.8)),
-                        0,
-                    ]
-                ),
-            )
-            for i, (_, planet) in enumerate(zip(orbit_data, planets))
-        ], run_time=5.0)
+        self.play(
+            *[
+                UpdateFromAlphaFunc(
+                    planet,
+                    lambda m, a, idx=i: m.move_to(
+                        sun.get_center()
+                        + [
+                            orbit_data[idx][1] * np.cos(a * 2 * np.pi * np.random.uniform(0.3, 0.8)),
+                            orbit_data[idx][1] * np.sin(a * 2 * np.pi * np.random.uniform(0.3, 0.8)),
+                            0,
+                        ]
+                    ),
+                )
+                for i, (_, planet) in enumerate(zip(orbit_data, planets))
+            ],
+            run_time=5.0,
+        )
         self.wait(0.5)
 
         earth = planets[2]
@@ -331,7 +357,12 @@ class FullStoryScene(Scene):
         self.play(FadeIn(earth_info, shift=UP * 0.3), run_time=1.0)
         self.wait(1.5)
 
-        self.play(FadeOut(VGroup(title, year_label, sun, sun_glow, orbits, planets, earth_highlight, earth_label, earth_info)), run_time=1.5)
+        self.play(
+            FadeOut(
+                VGroup(title, year_label, sun, sun_glow, orbits, planets, earth_highlight, earth_label, earth_info)
+            ),
+            run_time=1.5,
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 5: Origin of Life ────────────────────────────────────────
@@ -352,8 +383,12 @@ class FullStoryScene(Scene):
         self.play(FadeIn(ocean, shift=UP * 0.5), run_time=1.0)
 
         molecules_text = [
-            ("H₂O", BLUE_D), ("CH₄", GREY_B), ("NH₃", PURPLE),
-            ("CO₂", GREY), ("HCN", RED), ("H₂", BLUE_D),
+            ("H₂O", BLUE_D),
+            ("CH₄", GREY_B),
+            ("NH₃", PURPLE),
+            ("CO₂", GREY),
+            ("HCN", RED),
+            ("H₂", BLUE_D),
         ]
         molecules = VGroup()
         for formula, color in molecules_text:
@@ -365,10 +400,15 @@ class FullStoryScene(Scene):
         self.wait(0.5)
 
         center_point = np.array([0, -1, 0])
-        self.play(*[
-            m.animate.move_to(center_point + np.array([np.random.uniform(-0.3, 0.3), np.random.uniform(-0.3, 0.3), 0]))
-            for m in molecules
-        ], run_time=2.0)
+        self.play(
+            *[
+                m.animate.move_to(
+                    center_point + np.array([np.random.uniform(-0.3, 0.3), np.random.uniform(-0.3, 0.3), 0])
+                )
+                for m in molecules
+            ],
+            run_time=2.0,
+        )
         self.wait(0.3)
 
         flash = create_glow_circle(0.8, C_LIFE_GREEN, opacity=0.5)
@@ -394,7 +434,10 @@ class FullStoryScene(Scene):
         self.play(membrane.animate.shift(LEFT * 0.5), membrane2.animate.shift(RIGHT * 0.5), run_time=2.0)
         self.wait(0.5)
 
-        self.play(FadeOut(VGroup(title, year_label, ocean, molecules, membrane, membrane2, inner, luca_label, luca_sub)), run_time=1.5)
+        self.play(
+            FadeOut(VGroup(title, year_label, ocean, molecules, membrane, membrane2, inner, luca_label, luca_sub)),
+            run_time=1.5,
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 6: Great Oxidation ────────────────────────────────────────
@@ -439,8 +482,15 @@ class FullStoryScene(Scene):
             bubble.move_to([np.random.uniform(-5, 5), np.random.uniform(-2.5, -1), 0])
             bubble.set_opacity(0)
             oxygen_bubbles.add(bubble)
-        self.play(*[bubble.animate(run_time=np.random.uniform(0.5, 1.5)).set_opacity(0.6).shift(UP * np.random.uniform(1, 3))
-                    for bubble in oxygen_bubbles], run_time=2.5)
+        self.play(
+            *[
+                bubble.animate(run_time=np.random.uniform(0.5, 1.5))
+                .set_opacity(0.6)
+                .shift(UP * np.random.uniform(1, 3))
+                for bubble in oxygen_bubbles
+            ],
+            run_time=2.5,
+        )
 
         o2_text = Text("O₂ levels rise dramatically", font_size=22, color=C_OXYGEN_BLUE)
         o2_text.shift(UP * 1.5)
@@ -457,8 +507,26 @@ class FullStoryScene(Scene):
         self.play(FadeIn(extinction_text, shift=UP * 0.2), run_time=0.8)
         self.wait(1.5)
 
-        self.play(FadeOut(VGroup(title, year_label, timeline, start_label, end_label, goe_dot, goe_label,
-                                cyano_group, cyano_text, oxygen_bubbles, o2_text, rust_info, extinction_text)), run_time=1.5)
+        self.play(
+            FadeOut(
+                VGroup(
+                    title,
+                    year_label,
+                    timeline,
+                    start_label,
+                    end_label,
+                    goe_dot,
+                    goe_label,
+                    cyano_group,
+                    cyano_text,
+                    oxygen_bubbles,
+                    o2_text,
+                    rust_info,
+                    extinction_text,
+                )
+            ),
+            run_time=1.5,
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 7: Eukaryotes ────────────────────────────────────────────
@@ -520,8 +588,28 @@ class FullStoryScene(Scene):
         self.play(FadeIn(endo_text, shift=UP * 0.3), run_time=1.0)
         self.wait(2.0)
 
-        self.play(FadeOut(VGroup(title, year_label, prok, prok_label, dna_line, prey, engulf_flash, arrow,
-                                euk, nucleus, mito, euk_label, nucleus_label, mito_label, endo_text)), run_time=1.5)
+        self.play(
+            FadeOut(
+                VGroup(
+                    title,
+                    year_label,
+                    prok,
+                    prok_label,
+                    dna_line,
+                    prey,
+                    engulf_flash,
+                    arrow,
+                    euk,
+                    nucleus,
+                    mito,
+                    euk_label,
+                    nucleus_label,
+                    mito_label,
+                    endo_text,
+                )
+            ),
+            run_time=1.5,
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 8: Cambrian Explosion ────────────────────────────────────
@@ -600,12 +688,31 @@ class FullStoryScene(Scene):
             branch_texts.add(text)
         self.play(*[Create(bl) for bl in branch_lines], *[Write(bt) for bt in branch_texts], run_time=1.5)
 
-        diversity_text = Text("Most major animal body plans appear\nin just ~20 million years", font_size=18, color=GREY_B)
+        diversity_text = Text(
+            "Most major animal body plans appear\nin just ~20 million years", font_size=18, color=GREY_B
+        )
         diversity_text.to_edge(DOWN, buff=0.5)
         self.play(FadeIn(diversity_text, shift=UP * 0.3), run_time=1.0)
         self.wait(2.0)
 
-        self.play(FadeOut(VGroup(title, year_label, seafloor, water, creatures, name_labels, tree_line, tree_title, branch_lines, branch_texts, diversity_text)), run_time=1.5)
+        self.play(
+            FadeOut(
+                VGroup(
+                    title,
+                    year_label,
+                    seafloor,
+                    water,
+                    creatures,
+                    name_labels,
+                    tree_line,
+                    tree_title,
+                    branch_lines,
+                    branch_texts,
+                    diversity_text,
+                )
+            ),
+            run_time=1.5,
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 9: Sea to Land ───────────────────────────────────────────
@@ -626,8 +733,13 @@ class FullStoryScene(Scene):
         self.play(FadeIn(water_rect, shift=RIGHT * 0.3), run_time=0.5)
 
         land_area = Polygon(
-            [0.5, -2.5, 0], [7, -2.5, 0], [7, 2.5, 0], [0.5, 2.5, 0],
-            color="#1a3a1a", fill_opacity=0.6, stroke_opacity=0,
+            [0.5, -2.5, 0],
+            [7, -2.5, 0],
+            [7, 2.5, 0],
+            [0.5, 2.5, 0],
+            color="#1a3a1a",
+            fill_opacity=0.6,
+            stroke_opacity=0,
         )
         land_area.set_fill("#1a3a1a", opacity=0.6)
         land_points = [[0.5, -2.5, 0], [2, -2.0, 0], [3.5, -1.8, 0], [5.5, -2.2, 0], [7, -2.5, 0]]
@@ -685,13 +797,36 @@ class FullStoryScene(Scene):
         dino_head.move_to(RIGHT * 4.0 + UP * 0.7)
         dino_neck = Line(dino_body.get_right(), dino_head.get_bottom(), color=C_WARM_GOLD, stroke_width=4)
         dino_tail = Line(dino_body.get_left(), LEFT * 0.2 + RIGHT * 2.9 + UP * 0.3, color=C_WARM_GOLD, stroke_width=3)
-        dino_leg = Line(dino_body.get_bottom() + LEFT * 0.1, RIGHT * 3.4 + DOWN * 0.2, color=C_WARM_GOLD, stroke_width=3)
+        dino_leg = Line(
+            dino_body.get_bottom() + LEFT * 0.1, RIGHT * 3.4 + DOWN * 0.2, color=C_WARM_GOLD, stroke_width=3
+        )
         dino_group = VGroup(dino_body, dino_head, dino_neck, dino_tail, dino_leg)
-        self.play(*[Create(d, run_time=0.3) for d in [dino_body, dino_head, dino_neck, dino_tail, dino_leg]], run_time=1.2)
+        self.play(
+            *[Create(d, run_time=0.3) for d in [dino_body, dino_head, dino_neck, dino_tail, dino_leg]], run_time=1.2
+        )
         self.wait(2.0)
 
-        self.play(FadeOut(VGroup(title, year_label, water_rect, land_area, land, water_label, land_label, fish,
-                                transition_arrow, tetrapod, tiktaalik_label, plants, dino_text, dino_group)), run_time=1.5)
+        self.play(
+            FadeOut(
+                VGroup(
+                    title,
+                    year_label,
+                    water_rect,
+                    land_area,
+                    land,
+                    water_label,
+                    land_label,
+                    fish,
+                    transition_arrow,
+                    tetrapod,
+                    tiktaalik_label,
+                    plants,
+                    dino_text,
+                    dino_group,
+                )
+            ),
+            run_time=1.5,
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 10: Rise of Mammals ──────────────────────────────────────
@@ -753,8 +888,13 @@ class FullStoryScene(Scene):
         self.play(FadeIn(radiation_text, shift=UP * 0.2), run_time=0.8)
 
         mammal_colors = [C_HUMAN_TONE, C_NEBULA_PINK, C_WARM_GOLD, C_LIFE_GREEN, C_OXYGEN_BLUE, C_PRIMORDIAL]
-        self.play(*[mammals[i].animate.scale(np.random.uniform(1.5, 3.0)).set_color(mammal_colors[i])
-                    for i in range(len(mammals))], run_time=2.0)
+        self.play(
+            *[
+                mammals[i].animate.scale(np.random.uniform(1.5, 3.0)).set_color(mammal_colors[i])
+                for i in range(len(mammals))
+            ],
+            run_time=2.0,
+        )
 
         examples = VGroup()
         example_texts = [
@@ -771,7 +911,12 @@ class FullStoryScene(Scene):
         self.play(*[FadeIn(e, run_time=0.5) for e in examples], run_time=1.0)
         self.wait(2.0)
 
-        self.play(FadeOut(VGroup(title, year_label, asteroid, impact_glow, rings, mammals, mammal_text, radiation_text, examples)), run_time=1.5)
+        self.play(
+            FadeOut(
+                VGroup(title, year_label, asteroid, impact_glow, rings, mammals, mammal_text, radiation_text, examples)
+            ),
+            run_time=1.5,
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 11: Primate Lineage ──────────────────────────────────────
@@ -811,9 +956,12 @@ class FullStoryScene(Scene):
         self.wait(0.5)
 
         human_branch_start = tree_start[1] + 3.2 * 3.0 + 0.5
-        human_line = Line([tree_start[0] + 0.5, human_branch_start, 0],
-                          [tree_start[0] + 0.5, tree_start[1] + 3.8, 0],
-                          color=C_WARM_GOLD, stroke_width=3)
+        human_line = Line(
+            [tree_start[0] + 0.5, human_branch_start, 0],
+            [tree_start[0] + 0.5, tree_start[1] + 3.8, 0],
+            color=C_WARM_GOLD,
+            stroke_width=3,
+        )
         human_label = Text("Hominins", font_size=14, color=C_WARM_GOLD, weight=BOLD)
         human_label.next_to(human_line, LEFT, buff=0.3)
         self.play(Create(human_line), Write(human_label), run_time=1.0)
@@ -833,7 +981,14 @@ class FullStoryScene(Scene):
         self.play(FadeIn(bipedalism, shift=UP * 0.2), run_time=0.8)
         self.wait(2.0)
 
-        self.play(FadeOut(VGroup(title, year_label, trunk, branches, branch_labels, human_line, human_label, adaptations, bipedalism)), run_time=1.5)
+        self.play(
+            FadeOut(
+                VGroup(
+                    title, year_label, trunk, branches, branch_labels, human_line, human_label, adaptations, bipedalism
+                )
+            ),
+            run_time=1.5,
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 12: Human Evolution ──────────────────────────────────────
@@ -879,8 +1034,12 @@ class FullStoryScene(Scene):
         self.wait(0.5)
 
         brain_sizes = [
-            (350, -4.5, BLUE_D), (450, -3.0, C_PRIMORDIAL), (600, -1.5, C_FIRE_RED),
-            (900, 0.0, C_WARM_GOLD), (1400, 2.0, C_NEBULA_PURPLE), (1350, 3.5, BLUE),
+            (350, -4.5, BLUE_D),
+            (450, -3.0, C_PRIMORDIAL),
+            (600, -1.5, C_FIRE_RED),
+            (900, 0.0, C_WARM_GOLD),
+            (1400, 2.0, C_NEBULA_PURPLE),
+            (1350, 3.5, BLUE),
         ]
         brain_bars = VGroup()
         for size, x_pos, color in brain_sizes:
@@ -916,7 +1075,10 @@ class FullStoryScene(Scene):
         self.play(FadeIn(africa_text, shift=UP * 0.3), run_time=0.8)
         self.wait(1.5)
 
-        self.play(FadeOut(VGroup(title, year_label, timeline, species_labels, brain_bars, brain_cc, tech_group, africa_text)), run_time=1.5)
+        self.play(
+            FadeOut(VGroup(title, year_label, timeline, species_labels, brain_bars, brain_cc, tech_group, africa_text)),
+            run_time=1.5,
+        )
         self.wait(0.3)
 
     # ─── CHAPTER 13: Conclusion ───────────────────────────────────────────

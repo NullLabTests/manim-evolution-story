@@ -25,6 +25,7 @@ C_GALAXY_BLUE = ManimColor("#448AFF")
 
 # ─── Helper Functions ────────────────────────────────────────────────────────
 
+
 def make_timeline_label(scene, year_text, x_pos, label_text="", color=WHITE):
     """Place a year label on a horizontal timeline. Returns the label group."""
     dot = Dot(radius=0.06, color=color).move_to([x_pos, -3.2, 0])
